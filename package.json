@@ -1,0 +1,29 @@
+{
+  "name": "killall-docks",
+  "version": "0.0.0",
+  "description": "A dock for apps and web apps.",
+  "main": "main.js",
+  "scripts": {
+    "dev": "cp -a ./src/env/dev/ ./src/env/current/ && NODE_ENV=development electron .",
+    "start": "cp -a ./src/env/dev/ ./src/env/current/ && electron .",
+    "pack": "build --dir",
+    "dist": "cp -a ./src/env/prod/ ./src/env/current/ && build"
+  },
+  "build": {
+    "appId": "design.resist.killall-docks",
+    "productName": "Resist Design Kill All Docks",
+    "mac": {
+      "extendInfo": {
+        "LSUIElement": 1
+      }
+    }
+  },
+  "author": "Resist Design",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^3.0.10",
+    "electron-builder": "^20.38.4",
+    "electron-devtools-installer": "^2.2.4",
+    "electron-reload": "^1.4.0"
+  }
+}
