@@ -1,14 +1,23 @@
-const {app, BrowserWindow} = require('electron');
+const {
+  app,
+  BrowserWindow,
+  Rectangle
+} = require('electron');
 
 let MAIN_WINDOW;
 
 app.on(
   'ready',
   () => {
+    const {screen} = require('electron');
+    const {width, height} = screen.getPrimaryDisplay().workAreaSize;
+
     MAIN_WINDOW = new BrowserWindow(
       {
-        width: 800,
-        height: 600,
+        x: 0,
+        y: 0,
+        width,
+        height,
         center: true,
         frame: false,
         skipTaskbar: true,
@@ -30,11 +39,13 @@ app.on(
       }
     );
 
+    MAIN_WINDOW.setMenu(null);
+    MAIN_WINDOW.setMenuBarVisibility(false);
     MAIN_WINDOW.loadFile('./src/index.html');
     MAIN_WINDOW.once(
       'ready-to-show',
       () => {
-        MAIN_WINDOW.show();
+        MAIN_WINDOW.showInactive();
       }
     );
   }
