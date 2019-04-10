@@ -1,10 +1,15 @@
 const {
   app,
-  BrowserWindow,
-  Rectangle
+  BrowserWindow
 } = require('electron');
 
 let MAIN_WINDOW;
+
+app.requestSingleInstanceLock();
+app.setLoginItemSettings({
+  openAtLogin: true
+});
+app.dock.hide();
 
 app.on(
   'ready',
