@@ -5,6 +5,11 @@
 
     <style>
         html,
+        body {
+            overflow: hidden;
+        }
+
+        html,
         body,
         #app-root {
             box-sizing: border-box;
@@ -17,16 +22,34 @@
             margin: 0;
             padding: 0;
             border: none;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.25);
             color: white;
             font-family: sans-serif;
         }
+
+        #app-root {
+            flex: 1 0 auto;
+            background-color: rgba(0, 0, 0, 0.25);
+            overflow: auto;
+            margin-top: 95vh;
+
+            transition: margin-top 0.5s ease-in-out;
+        }
+
+        #app-root:hover {
+            margin-top: 0;
+        }
     </style>
+    <script>
+      const {ipcRenderer} = require('electron');
+
+
+    </script>
 </head>
 <body>
 <div
         id="app-root"
+        onmouseenter="ipcRenderer.send('enter-bar');"
+        onmouseleave="ipcRenderer.send('leave-bar');"
 >
     Kill All Docks
 </div>

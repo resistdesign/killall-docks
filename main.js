@@ -1,7 +1,19 @@
 const {
   app,
-  BrowserWindow
+  BrowserWindow,
+  ipcMain
 } = require('electron');
+
+// DEV CODE:
+try {
+  const path = require('path');
+  require('electron-reload')(__dirname, {
+    electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
+    hardResetMethod: 'exit'
+  });
+} catch (error) {
+  console.log('Reload Error:', error);
+}
 
 let MAIN_WINDOW;
 
@@ -15,12 +27,14 @@ app.on(
   'ready',
   () => {
     const {screen} = require('electron');
-    const {width, height} = screen.getPrimaryDisplay().workAreaSize;
+    const {width, height: screenHeight} = screen.getPrimaryDisplay().workAreaSize;
+    const height = 100;
+    const barHeight = 25;
 
     MAIN_WINDOW = new BrowserWindow(
       {
         x: 0,
-        y: 0,
+        y: (screenHeight - height) + barHeight,
         width,
         height,
         center: true,
@@ -45,6 +59,7 @@ app.on(
     );
 
     MAIN_WINDOW.setMenu(null);
+    MAIN_WINDOW.setIgnoreMouseEvents(true, {forward: true});
     MAIN_WINDOW.setMenuBarVisibility(false);
     MAIN_WINDOW.loadFile('./src/index.html');
     MAIN_WINDOW.once(
@@ -55,3 +70,11 @@ app.on(
     );
   }
 );
+
+ipcMain.on('enter-bar', () => {
+  MAIN_WINDOW.setIgnoreMouseEvents(false);
+});
+
+ipcMain.on('leave-bar', () => {
+  MAIN_WINDOW.setIgnoreMouseEvents(true, {forward: true});
+});
